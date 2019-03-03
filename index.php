@@ -33,13 +33,19 @@ include "./functions.php";
         <nav>
             <ul class="nav nav-pills float-right">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">General</a>
+                    <a class="nav-link active" href="index.php">General</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="shop.php">Shopping Cart</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="list.php">Check List</a>
+                    <a class="nav-link" href="#">Check List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Multi Form</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">API</a>
                 </li>
             </ul>
         </nav>

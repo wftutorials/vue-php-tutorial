@@ -16,7 +16,7 @@ include "functions.php";
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Vue &amp; PHP - Shopping Cart</title>
+    <title>Vue &amp; PHP - ToDo List</title>
 
     <!-- Bootstrap core CSS -->
     <link href="./css/bootstrap.css" rel="stylesheet">
@@ -102,10 +102,10 @@ include "functions.php";
                     <a class="nav-link" href="index.php">General</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="shop.php">Shopping Cart</a>
+                    <a class="nav-link" href="shop.php">Shopping Cart</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="todo.php">Tasks</a>
+                    <a class="nav-link active" href="todo.php">Tasks</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Multi Form</a>
@@ -119,28 +119,36 @@ include "functions.php";
     </div>
     <div class="container">
         <div class="jumbotron">
-            <h1 class="display-3">My Shopping Cart</h1>
-            <p class="lead">{{ itemsCount }} Items</p>
-            <p>
-            <form action="submit.php?action=shop" method="get" style="display: inline-block;">
-                <input name="products" type="hidden" v-model="products">
-                <a href="javascript:void(0);" id="show-modal" @click="showModal = true" class="btn btn-primary">View Cart</a>
-                <button class="btn btn-lg btn-success" role="button">Submit Cart</button>
-            </form>
-            <a @click="clearProducts()" class="btn btn-lg btn-danger" href="javascript:void(0);" role="button">Clear Cart</a>
-            </p>
+            <h1 class="display-3">My ToDo List</h1>
         </div>
+    </div>
+    <div class="container">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Add Item</label>
+                <input v-model="message" v-on:keyup.enter="addToDo()" type="text" class="form-control"
+                       placeholder="Enter a task">
+            </div>
     </div>
     <div class="container">
         <div class="card">
             <div class="card-header">
-                Shopping Items
+                Items
+                <div class="float-right">
+                    <form action="submit.php" method="get">
+                        <input type="hidden" v-model="updatedToDos" name="todos">
+                        <button v-if="stale" class="btn btn-sm btn-primary">Save Updated List</button>
+                    </form>
+                </div>
             </div>
             <div class="card-block">
                 <ul class="list-group">
-                    <li  v-for="item in items" :key="item.id" class="list-group-item clearfix">
-                        <div class="" style="width:100%; display: inline-block;">
-                            {{ item.name }} <a href="javascript:void(0)" class="btn btn-sm btn-primary float-right" @click="addToCart(item.id)">Add Item</a>
+                    <li v-for="item in items" class="list-group-item ">
+                        <div class="" style="width:100%;">
+                            {{ item.item }}
+                            <div class="float-right">
+                                &nbsp;<a href="javascript:void(0)" class="btn btn-sm btn-primary">Edit Item</a>&nbsp;
+                                <a href="javascript:void(0)" class="btn btn-sm btn-danger float-right">Delete Item</a>
+                            </div>
                         </div>
                     </li>
                 </ul>
@@ -152,77 +160,33 @@ include "functions.php";
     <footer class="footer">
         <p>&copy; igestDevelopment 2019</p>
     </footer>
-    <modal v-if="showModal" @close="showModal = false" v-bind:items="cardIds">
 </div> <!-- /container -->
-<!-- template for the modal component -->
-<script type="text/x-template" id="modal-template">
-    <transition name="modal">
-        <div class="modal-mask">
-            <div class="modal-wrapper">
-                <div class="modal-container">
-
-                    <div class="modal-header">
-                        <slot name="header">
-                            Items in my cart
-                        </slot>
-                    </div>
-
-                    <div class="modal-body">
-                        <slot name="body">
-                            <span v-if="items.length <=0">No items added to cart</span>
-                           <ul>
-                               <li  v-for="item in items" :key="item.id">{{ products[item]["name"] }}</li>
-                           </ul>
-                        </slot>
-                    </div>
-
-                    <div class="modal-footer">
-                        <slot name="footer">
-                            <button class="modal-default-button" @click="$emit('close')">
-                                OK
-                            </button>
-                        </slot>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </transition>
-</script>
-
 <script>
-    Vue.component('modal', {
-        template: '#modal-template',
-        props: ['items'],
-        data: function() {
-            return {
-                "products" : <?php echo get_shop_items();?>
-            }
-        }
-    });
 
     var myObject = new Vue({
         el: '#app',
         data : {
-            showModal: false,
-            itemsCount : 0,
-            products: "",
-            cardIds: [],
-            "items": <?php echo get_shop_items();?>
+            message: "",
+            updatedToDos : "",
+            stale: false,
+            items: <?php echo get_todos();?>,
         },
         methods: {
-            addToCart( id ) {
-                console.log(id)
-                this.itemsCount++;
-                this.cardIds.push(id);
-                this.updateProducts(id);
+            addToDo() {
+                this.addToItems(this.message);
+                this.message = "";
             },
-            updateProducts( id ){
-                this.products = this.cardIds.toString();
+            addToItems(message){
+                var count = Object.keys(this.items).length;
+                this.items[count +1 ] = {
+                    'id' : "nan",
+                    "item":message,
+                };
+                this.convertToString();
+                this.stale = true;
             },
-            clearProducts(){
-                this.products = "";
-                this.itemsCount = 0;
-                this.cardIds = [];
+            convertToString(){
+                this.updatedToDos = JSON.stringify(this.items);
             }
         }
     })

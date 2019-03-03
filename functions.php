@@ -23,3 +23,8 @@ function get_shop_items(){
     $data = shop_items();
     return json_encode($data);
 }
+
+function get_todos(){
+    $data = include "db_todos.php";
+    return json_encode($data);
+}

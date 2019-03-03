@@ -16,3 +16,8 @@ if( isset($_GET["products"]) && !empty($_GET["products"]) ){
         echo $products[$id]["name"]. "<br>";
     }
 }
+
+if(isset($_GET["todos"]) && !empty($_GET["todos"])){
+    $data = json_decode($_GET["todos"]);
+    var_dump($data);
+}
