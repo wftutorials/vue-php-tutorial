@@ -39,10 +39,10 @@ include "./functions.php";
                     <a class="nav-link" href="shop.php">Shopping Cart</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Check List</a>
+                    <a class="nav-link" href="todo.php">Check List</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Multi Form</a>
+                    <a class="nav-link" href="form.php">Multi Form</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">API</a>

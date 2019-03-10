@@ -18,6 +18,12 @@ if( isset($_GET["products"]) && !empty($_GET["products"]) ){
 }
 
 if(isset($_GET["todos"]) && !empty($_GET["todos"])){
-    $data = json_decode($_GET["todos"]);
-    var_dump($data);
+    $data = json_decode($_GET["todos"],true);
+    foreach($data as $row ){
+        if($row["id"] == "nan"){
+            echo "create task: " . $row["item"] . "<br>";
+        }else{
+            echo "update task: " . $row["id"] . " - " . $row["item"] . "<br>";
+        }
+    }
 }
