@@ -49,9 +49,6 @@ include "functions.php";
                 <li class="nav-item">
                     <a class="nav-link active" href="form.php">Multi Form</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">API</a>
-                </li>
             </ul>
         </nav>
         <h3 class="text-muted">Vue and PHP</h3>
@@ -62,24 +59,16 @@ include "functions.php";
             <p>An events attendance form</p>
         </div>
     </div>
-
+    <form action="form.php" method="get">
     <div class="container">
-        <form>
-            <div class="form-group">
-                <label for="exampleInputEmail1">Your Name</label>
-                <input type="text" class="form-control" placeholder="Enter your full name">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Your Name</label>
+            <input v-model="name" name="name" type="text" class="form-control" placeholder="Enter your full name">
             </div>
             <div class="form-group">
-                <label for="exampleInputPassword1">Your Email</label>
-                <input type="email" class="form-control" placeholder="Enter your email">
-            </div>
-            <button type="button" class="btn btn-success">Add Attendee</button>
-            <button type="button" class="btn btn-danger">Remove Attendee</button>
-            <form action="submit.php" method="get" style="display: inline-block">
-                <input type="hidden" v-model="updatedToDos" name="todos">
-                <button class="btn btn-primary">Submit Changes</button>
-            </form>
-        </form>
+            <label for="exampleInputPassword1">Your Email</label>
+            <input v-model="email" type="email" class="form-control" placeholder="Enter your email">
+        </div>
         <br>
     </div>
 
@@ -91,31 +80,65 @@ include "functions.php";
                 </div>
             </div>
             <div class="card-block">
-                <form>
                     <div class="form-group">
-                        <label for="exampleFormControlInput1">Email address</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                        <label for="exampleFormControlInput1">Name</label>
+                        <input v-model="aname" type="text" class="form-control" placeholder="Attendee Name">
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Email address</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                        <input v-model="aemail" type="email" class="form-control"  placeholder="name@example.com">
                     </div>
                     <div class="form-group">
-                        <label for="exampleFormControlSelect1">Example select</label>
-                        <select class="form-control" id="exampleFormControlSelect1">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
+                        <label for="exampleFormControlSelect1">Status</label>
+                        <select v-model="status" class="form-control" name="status">
+                            <option value="going">Going</option>
+                            <option value="not sure">Not Sure</option>
+                            <option value="rsvp">RSVP</option>
                         </select>
                     </div>
-                </form>
+                    <button @click="addAttendee()" type="button" class="btn btn-success btn-block">Save Attendee</button>
             </div>
         </div>
     </div>
     <br><br>
 
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h3 style="display: inline-block;">Form Preview</h3>
+            </div>
+            <div class="card-block">
+                <div>
+                    Event Participant : {{ name }}<br>
+                    Email : {{ email }}<br>
+                    Participants : ({{ attendeesCount }})
+                </div><br>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Attendee Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="row in attendees">
+                        <td>{{ row.name }}</td>
+                        <td>{{ row.email }}</td>
+                        <td>{{ row.status }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <input type="hidden" v-model="list" name="attendeesList">
+        <br>
+        <button  type="submit" class="btn btn-primary btn-block">Submit Form</button>
+        <br>
+    </div>
+    </form>
     <footer class="footer">
         <p>&copy; igestDevelopment 2019</p>
     </footer>
@@ -125,14 +148,32 @@ include "functions.php";
     var myObject = new Vue({
         el: '#app',
         data : {
-            message: "",
+            name: "",
+            email: "",
+            status: "",
+            aname: "",
+            aemail: "",
             items: "",
+            attendees: [],
+            list : []
         },
         methods: {
-
+            addAttendee() {
+                this.attendees.push({
+                    "name" : this.aname,
+                    "email" : this.aemail,
+                    "status" : this.status
+                });
+                console.log(this.attendees);
+                this.aname = "";
+                this.aemail = "";
+                this.list = JSON.stringify(this.attendees);
+            },
         },
         computed: {
-            // a computed getter
+            attendeesCount(){
+                return this.attendees.length;
+            }
         }
     })
 </script>

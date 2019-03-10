@@ -110,9 +110,6 @@ include "functions.php";
                 <li class="nav-item">
                     <a class="nav-link" href="form.php">Multi Form</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">API</a>
-                </li>
             </ul>
         </nav>
         <h3 class="text-muted">Vue and PHP</h3>
