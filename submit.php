@@ -9,6 +9,7 @@
 include 'functions.php';
 
 
+
 if( isset($_GET["products"]) && !empty($_GET["products"]) ){
     $ids = explode(',', $_GET["products"]);
     $products = shop_items();
@@ -26,4 +27,8 @@ if(isset($_GET["todos"]) && !empty($_GET["todos"])){
             echo "update task: " . $row["id"] . " - " . $row["item"] . "<br>";
         }
     }
+}
+
+if(isset($_GET["wizard"]) && !empty($_GET["wizard"])){
+    var_dump($_GET['wizard']);
 }
