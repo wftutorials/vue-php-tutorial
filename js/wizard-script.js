@@ -15,7 +15,7 @@ var myObject = new Vue({
     },
     methods : {
         forward: function(){
-            if(this.currentCard  < this.cards){
+            if(this.checkform() && this.currentCard  < this.cards){
                 this.currentCard++;
             }
             if(this.currentCard == this.cards ){
@@ -37,6 +37,7 @@ var myObject = new Vue({
         },
         checkform : function(){
             var status = true;
+            this.errors = [];
             if(this.currentCard == '1'){
                 if(this.name == ""){
                     this.errors.push("Name can't be empty");
@@ -46,10 +47,18 @@ var myObject = new Vue({
                     this.errors.push("Email can't be empty");
                     status = false;
                 }
+                if(!this.validEmail(this.email)){
+                    this.errors.push("Email must be valid");
+                    status = false;
+                }
             }
             if( this.currentCard == '2'){
                 if(this.postTitle == ""){
                     this.errors.push("Post Title can't be empty");
+                    status = false;
+                }
+                if(this.postContent == ""){
+                    this.errors.push("Post content can't be empty");
                     status = false;
                 }
             }
@@ -73,6 +82,9 @@ var myObject = new Vue({
             var obj = {
                 'name' : this.name,
                 'email' : this.email,
+                'contact' : this.contact,
+                'postTitle' : this.postTitle,
+                'content' : this.postContent
             };
             this.results = JSON.stringify(obj);
         }

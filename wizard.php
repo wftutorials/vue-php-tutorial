@@ -51,7 +51,7 @@ include "./functions.php";
 
     <div class="container">
         <div class="wizard"  id="app">
-            <form method="get" action="submit.php">
+            <form method="post" action="submit.php">
             <div class="card">
                 <div class="card-header">
                     <h3>Wizard View</h3>
@@ -76,11 +76,13 @@ include "./functions.php";
                             </div>
                             <div class="card-block">
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Full Name</label>
+                                    <label for="exampleFormControlInput1">Full Name
+                                        <span style="color:red;">*</span></label>
                                     <input value="" name="name" v-model="name" type="text" class="form-control" placeholder="e.g. John Doe">
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Email address</label>
+                                    <label for="exampleFormControlInput1">Email address
+                                        <span style="color:red;">*</span></label>
                                     <input name="email" v-model="email" type="email" class="form-control" placeholder="name@example.com">
                                 </div>
                                 <div class="form-group">
@@ -99,11 +101,13 @@ include "./functions.php";
                             </div>
                             <div class="card-block">
                                 <div class="form-group">
-                                    <label for="exampleFormControlInput1">Post Title</label>
+                                    <label for="exampleFormControlInput1">Post Title
+                                        <span style="color:red;">*</span></label>
                                     <input  name="postTitle" v-model="postTitle" type="text" class="form-control" placeholder="Enter a post title">
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleFormControlTextarea1">Content</label>
+                                    <label for="exampleFormControlTextarea1">Content
+                                        <span style="color:red;">*</span></label>
                                     <textarea name="postContent" v-model="postContent" class="form-control" rows="3"></textarea>
                                 </div>
                             </div>
@@ -120,11 +124,11 @@ include "./functions.php";
                             <div class="card-block" style="overflow: auto;">
                                 Form content added
                                 <ul class="list-group">
-                                    <li class="list-group-item">Name : {{ name }}</li>
-                                    <li class="list-group-item">Email :: {{ email }}</li>
-                                    <li class="list-group-item">Contact :: {{ contact }}</li>
-                                    <li class="list-group-item">Post Title : {{ postTitle }}</li>
-                                    <li class="list-group-item">Details : {{ postContent }}</li>
+                                    <li class="list-group-item"><b>Name :</b> {{ name }}</li>
+                                    <li class="list-group-item"><b>Email :</b> {{ email }}</li>
+                                    <li class="list-group-item"><b>Contact :</b> {{ contact }}</li>
+                                    <li class="list-group-item"><b>Post Title :</b> {{ postTitle }}</li>
+                                    <li class="list-group-item"><b>Details :</b> {{ postContent }}</li>
                                 </ul>
                             </div>
                         </div>

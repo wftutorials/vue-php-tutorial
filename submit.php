@@ -29,6 +29,6 @@ if(isset($_GET["todos"]) && !empty($_GET["todos"])){
     }
 }
 
-if(isset($_GET["wizard"]) && !empty($_GET["wizard"])){
-    var_dump($_GET['wizard']);
+if(isset($_POST["wizard"]) && !empty($_POST["wizard"])){
+    var_dump($_POST['wizard']);
 }
