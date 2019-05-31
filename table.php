@@ -61,7 +61,10 @@ include "./functions.php";
                 </thead>
                 <tbody>
                 <tr v-for="row in rows">
-                    <th><input type="number" v-model="row.quantity"></th>
+                    <th>
+                        <span v-if="cansubmit">{{ row.quantity }}</span>
+                        <input v-if="!cansubmit" type="number" v-model="row.quantity">
+                    </th>
                     <td>{{ row.item }} </td>
                     <td>{{ row.price }}</td>
                     <td>{{ row.quantity * row.price }}</td>
@@ -75,7 +78,14 @@ include "./functions.php";
                 </tbody>
             </table>
             <hr>
-            <button type="button" @click="test()" class="btn btn-primary">Submit this data</button>
+            <div>
+                <button v-if="cansubmit" type="button" @click="edit()" class="btn btn-primary float-left">Edit</button>
+                <button v-if="!cansubmit" type="button" @click="finish()" class="btn btn-primary float-left">Finish</button>
+                <form  v-if="cansubmit" action="submit.php" method="get">
+                    <input type="hidden" v-model="formdata" name="data">
+                    <button type="submit" class="btn btn-primary float-right">Submit</button>
+                </form>
+            </div>
             <br><br>
         </div>
 
@@ -95,6 +105,8 @@ include "./functions.php";
             updatedToDos : "",
             stale: false,
             showElement: "none",
+            cansubmit : false,
+            formdata : "",
             rows : {
                 1 : {
                     'quantity' : 0,
@@ -126,6 +138,16 @@ include "./functions.php";
             test : function(){
                 var total=this.rows[1];
                 console.log(total.total);
+            },
+            finish : function(){
+                this.cansubmit = true;
+                this.createFormData();
+            },
+            edit : function(){
+                this.cansubmit = false;
+            },
+            createFormData : function(){
+                this.formdata = JSON.stringify(this.rows);
             }
         },
         computed : {
